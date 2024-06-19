@@ -59,15 +59,22 @@ int main(int argc, char *argv[]) {
   }
 
   // Create the charuco
+  // cv::Ptr<cv::aruco::Dictionary> dict =
+  //     cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_1000);
   cv::Ptr<cv::aruco::Dictionary> dict =
       cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_1000);
+  // int numMarkers = 3000;
+  // int markerSize = 6;
+  // cv::Ptr<cv::aruco::Dictionary> dict = cv::aruco::generateCustomDictionary(numMarkers, markerSize);
   std::vector<cv::Ptr<cv::aruco::CharucoBoard>> charucoBoards;
   int offset_count = 0;
   for (std::size_t i = 0; i < num_board; i++) {
     // declare the board
+    // std::cout << "Creating board " << i << std::endl;
     cv::Ptr<cv::aruco::CharucoBoard> charuco = cv::aruco::CharucoBoard::create(
         number_x_square_per_board[i], number_y_square_per_board[i],
         length_square, length_marker, dict);
+    // std::cout << "Number of markers: " << charuco->ids.size() << std::endl;
     // If it is the first board then just use the standard idx
     if (i != 0) {
       int id_offset = charucoBoards[i - 1]->ids.size() + offset_count;
@@ -79,9 +86,11 @@ int main(int argc, char *argv[]) {
     // create the charuco board
     charucoBoards.push_back(charuco);
     cv::Mat boardImage;
+    // std::cout << "Drawing board " << i << std::endl;
     charucoBoards[i]->draw(
         cv::Size(resolution_x_per_board[i], resolution_y_per_board[i]),
         boardImage, 10, 1);
+    // std::cout << "Board " << i << " created" << std::endl;
     // Display marker
     // cv::imshow("My Charuco", boardImage);
     // cv::waitKey(1);

@@ -1,0 +1,21 @@
+xhost +local:docker
+docker run -d -it \
+    --net=host \
+    --gpus all \
+    --runtime nvidia \
+    --cpuset-cpus="8-19" \
+	-p 5955:5901 \
+	-p 2522:22 \
+    -e DISPLAY=$DISPLAY \
+    -v /tmp/.X11-unix/:/tmp/.X11-unix \
+    -e XAUTHORITY \
+    -e NVIDIA_VISIBLE_DEVICES=all \
+    -e NVIDIA_DRIVER_CAPABILITIES=all \
+    -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro \
+    -v /mnt/dataset:/persist/dataset \
+    -v /home/yifan/.ssh:/root/.ssh \
+    -v /home/yifan/.zsh_history:/root/.zsh_history \
+    -v /home/yifan/MyCode/:/persist \
+    -v /home/yifan/Slam/:/persist/Slam \
+    -v /home/yifan/Dataset/:/persist/Dataset \
+    --name calib bailool/mc-calib-prod bash

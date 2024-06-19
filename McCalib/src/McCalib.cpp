@@ -684,8 +684,10 @@ void Calibration::initializeCalibrationAllCam() {
   } else {
     LOG_INFO << "Initializing camera calibration using images";
 
-    for (const auto &it : cams_)
+    for (const auto &it : cams_) {
+      LOG_INFO << "Initializing camera calibration for camera " << it.first;
       it.second->initializeCalibration();
+    }
   }
 }
 
